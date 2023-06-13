@@ -7,7 +7,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PrefixData {
+public class PlayerPrefixData {
 
     protected Config config;
 
@@ -15,13 +15,13 @@ public class PrefixData {
 
     protected List<String> ownedPrefixes;
 
-    public PrefixData(){
-        this.config = null;
+    public PlayerPrefixData(){
+        this.config = null; // 临时创建的时候，不创建config
         this.displayedPrefix = "";
         this.ownedPrefixes = new ArrayList<>();
     }
 
-    public PrefixData(String player){
+    public PlayerPrefixData(String player){
         File file = new File(PrefixMain.path+"/"+player+".yml");
         if(!file.exists()) {
             this.config = new Config(file, Config.YAML);
@@ -31,7 +31,7 @@ public class PrefixData {
         this.ownedPrefixes = new ArrayList<>(config.getStringList("prefixes"));
     }
 
-    public PrefixData(File file){
+    public PlayerPrefixData(File file){
         this.config = new Config(file, Config.YAML);
         this.fixConfig();
         this.displayedPrefix = config.getString("displayed_prefix", "");
@@ -39,19 +39,15 @@ public class PrefixData {
     }
 
     public String getDisplayedPrefix() {
-        return displayedPrefix;
+        return displayedPrefix.equals("")? "萌新驾到": displayedPrefix;
     }
 
     public List<String> getOwnedPrefixes() {
         return ownedPrefixes;
     }
 
-    public void addOwnedPrefixes(String prefix, boolean save) {
-        this.ownedPrefixes.add(prefix);
-        if(config != null && save){
-            this.config.set("prefixes", ownedPrefixes);
-            this.config.save();
-        }
+    public Config getConfig() {
+        return config;
     }
 
     public void setDisplayedPrefix(String prefix, boolean save){

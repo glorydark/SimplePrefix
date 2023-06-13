@@ -1,0 +1,5 @@
+prefixes:
+  - identifier: test
+    name: 测试
+    price: 2000
+    duration: 84000
