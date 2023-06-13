@@ -2,11 +2,12 @@ package glorydark.nukkit.data;
 
 import cn.nukkit.Player;
 import glorydark.nukkit.PrefixAPI;
+import glorydark.nukkit.PrefixUtils;
 import me.onebone.economyapi.EconomyAPI;
 
-import java.util.Objects;
-
 public class PrefixData {
+
+    private String identifier;
 
     private String name;
 
@@ -14,7 +15,8 @@ public class PrefixData {
 
     private long duration;
 
-    public PrefixData(String name, double cost, long duration){
+    public PrefixData(String identifier, String name, double cost, long duration){
+        this.identifier = identifier;
         this.name = name;
         this.cost = cost;
         this.duration = duration;
@@ -32,6 +34,10 @@ public class PrefixData {
         return name;
     }
 
+    public String getIdentifier() {
+        return identifier;
+    }
+
     public void setCost(double cost) {
         this.cost = cost;
     }
@@ -44,10 +50,16 @@ public class PrefixData {
         this.name = name;
     }
 
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
     public void buy(Player player){
-        if(EconomyAPI.getInstance().myMoney(player) >= cost){
+        if(EconomyAPI.getInstance().myMoney(player) >= this.getCost()){
             if(PrefixAPI.addOwnedPrefixes(player.getName(), this.getName(), this.getDuration())) {
-                EconomyAPI.getInstance().reduceMoney(player, cost);
+                EconomyAPI.getInstance().reduceMoney(player, this.getCost());
+                long expireMillis = PrefixAPI.getPrefixData(player.getName()).getOwnedPrefixes().get(this.getIdentifier()).getExpireMillis();
+                player.sendMessage("成功花费 ["+this.getCost()+"] "+EconomyAPI.getInstance().getName()+"购买 ["+this.getName()+"] " + (expireMillis == -1? "永久":PrefixUtils.secToTime((int) (expireMillis/1000))));
             }
         }
     }

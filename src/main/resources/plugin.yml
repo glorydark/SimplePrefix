@@ -1,0 +1,9 @@
+name: SimplePrefix
+main: glorydark.nukkit.PrefixMain
+version: "1.0.0"
+api: "1.0.0"
+author: glorydark
+description: SimplePrefix
+load: POSTWORLD
+depend:
+  - EconomyAPI
