@@ -22,7 +22,7 @@ public class PrefixCommand extends Command {
                         commandSender.sendMessage("§c使用方法: /prefix buy 称号标识符");
                     }
                     if(PrefixMain.prefixDataHashMap.containsKey(strings[1])){
-                        PrefixMain.prefixDataHashMap.get(strings[1]).buy(player);
+                        PrefixAPI.getPrefixData(strings[1]).buy(player);
                     }else{
                         commandSender.sendMessage("§c* 不存在该称号！");
                     }

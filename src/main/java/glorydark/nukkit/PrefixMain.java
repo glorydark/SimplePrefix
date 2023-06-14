@@ -62,7 +62,7 @@ public class PrefixMain extends PluginBase implements Listener {
     @EventHandler
     public void PlayerMessageEvent(PlayerMessageEvent event){
         Player player = event.getPlayer();
-        PrefixChangeMessageEvent prefixChangeMessageEvent = new PrefixChangeMessageEvent(player, PrefixAPI.getPrefixData(player.getName()).getDisplayedPrefix());
+        PrefixChangeMessageEvent prefixChangeMessageEvent = new PrefixChangeMessageEvent(player, PrefixAPI.getPlayerPrefixData(player.getName()).getDisplayedPrefix());
         Server.getInstance().getPluginManager().callEvent(prefixChangeMessageEvent);
         if(!prefixChangeMessageEvent.isCancelled()){
             event.setMessage("["+prefixChangeMessageEvent.getPrefix()+"]"+event.getMessage());

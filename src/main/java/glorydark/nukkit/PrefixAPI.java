@@ -1,12 +1,13 @@
 package glorydark.nukkit;
 
+import cn.nukkit.Player;
 import glorydark.nukkit.data.PlayerData;
 import glorydark.nukkit.data.PlayerPrefixData;
 import glorydark.nukkit.data.PrefixData;
 
 public class PrefixAPI {
 
-    public static PlayerData getPrefixData(String player){
+    public static PlayerData getPlayerPrefixData(String player){
         if(PrefixMain.playerPrefixDataHashMap.containsKey(player)){
             return PrefixMain.playerPrefixDataHashMap.get(player);
         }else{
@@ -14,6 +15,21 @@ public class PrefixAPI {
             // 同时这个也方便其他系统来对接，临时发放称号。
             return new PlayerData();
         }
+    }
+
+    public static PrefixData getPrefixData(String identifier){
+        return PrefixMain.prefixDataHashMap.get(identifier);
+    }
+
+    public static boolean setDisplayedPrefix(String player, String identifier){
+        PlayerData data = getPlayerPrefixData(player);
+        if(data.getOwnedPrefixes().containsKey(identifier)){
+            if(data.getDisplayedPrefixData().getIdentifier().equals(identifier)){
+                data.setDisplayedPrefix(identifier, true);
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -26,8 +42,8 @@ public class PrefixAPI {
      * @return 是否设置成功
      */
     public static boolean addOwnedPrefixes(String player, String identifier, long duration) {
-        PlayerData data = getPrefixData(player);
-        PrefixData prefixData = PrefixMain.prefixDataHashMap.get(identifier);
+        PlayerData data = getPlayerPrefixData(player);
+        PrefixData prefixData = PrefixAPI.getPrefixData(identifier);
         if(data.getDisplayedPrefix().equals("")) {
             data.setDisplayedPrefix(identifier, true);
         }

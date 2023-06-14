@@ -1,6 +1,7 @@
 package glorydark.nukkit.data;
 
 import cn.nukkit.utils.Config;
+import glorydark.nukkit.PrefixAPI;
 import glorydark.nukkit.PrefixMain;
 
 import java.io.File;
@@ -27,7 +28,7 @@ public class PlayerData {
             this.config = new Config(file, Config.YAML);
         }
         this.fixConfig();
-        this.displayedPrefix = PrefixMain.prefixDataHashMap.get(config.getString("displayed_prefix"));
+        this.displayedPrefix = PrefixAPI.getPrefixData((config.getString("displayed_prefix")));
         for(String identifier : config.getSection("prefixes").getKeys(false)){
             this.ownedPrefixes.put(identifier, new PlayerPrefixData(identifier, config.getLong("prefixes."+identifier)));
         }
@@ -36,10 +37,14 @@ public class PlayerData {
     public PlayerData(File file){
         this.config = new Config(file, Config.YAML);
         this.fixConfig();
-        this.displayedPrefix = PrefixMain.prefixDataHashMap.get(config.getString("displayed_prefix"));
+        this.displayedPrefix = PrefixAPI.getPrefixData((config.getString("displayed_prefix")));
         for(String identifier : config.getSection("prefixes").getKeys(false)){
             this.ownedPrefixes.put(identifier, new PlayerPrefixData(identifier, config.getLong("prefixes."+identifier)));
         }
+    }
+
+    public PrefixData getDisplayedPrefixData() {
+        return displayedPrefix;
     }
 
     public String getDisplayedPrefix() {
@@ -55,7 +60,7 @@ public class PlayerData {
     }
 
     public void setDisplayedPrefix(String identifier, boolean save){
-        this.displayedPrefix = PrefixMain.prefixDataHashMap.get(identifier);
+        this.displayedPrefix = PrefixAPI.getPrefixData(identifier);
         if(config != null && save){
             this.config.set("displayed_prefix", identifier);
             this.config.save();

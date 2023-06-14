@@ -58,7 +58,7 @@ public class PrefixData {
         if(EconomyAPI.getInstance().myMoney(player) >= this.getCost()){
             if(PrefixAPI.addOwnedPrefixes(player.getName(), this.getName(), this.getDuration())) {
                 EconomyAPI.getInstance().reduceMoney(player, this.getCost());
-                long expireMillis = PrefixAPI.getPrefixData(player.getName()).getOwnedPrefixes().get(this.getIdentifier()).getExpireMillis();
+                long expireMillis = PrefixAPI.getPlayerPrefixData(player.getName()).getOwnedPrefixes().get(this.getIdentifier()).getExpireMillis();
                 player.sendMessage("成功花费 ["+this.getCost()+"] "+EconomyAPI.getInstance().getName()+"购买 ["+this.getName()+"] " + (expireMillis == -1? "永久":PrefixUtils.secToTime((int) (expireMillis/1000))));
             }
         }
