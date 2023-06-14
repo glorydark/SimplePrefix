@@ -5,6 +5,8 @@ import glorydark.nukkit.PrefixAPI;
 import glorydark.nukkit.PrefixUtils;
 import me.onebone.economyapi.EconomyAPI;
 
+import java.util.List;
+
 public class PrefixData {
 
     private String identifier;
@@ -15,11 +17,15 @@ public class PrefixData {
 
     private long duration;
 
-    public PrefixData(String identifier, String name, double cost, long duration){
+    private final List<MessageDecorationType> messageDecorationTypes;
+
+
+    public PrefixData(String identifier, String name, double cost, long duration, List<MessageDecorationType> messageDecorationTypes){
         this.identifier = identifier;
         this.name = name;
         this.cost = cost;
         this.duration = duration;
+        this.messageDecorationTypes = messageDecorationTypes;
     }
 
     public double getCost() {
@@ -36,6 +42,10 @@ public class PrefixData {
 
     public String getIdentifier() {
         return identifier;
+    }
+
+    public List<MessageDecorationType> getMessageDecorationTypes() {
+        return messageDecorationTypes;
     }
 
     public void setCost(double cost) {

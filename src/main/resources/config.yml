@@ -1,5 +1,7 @@
 prefixes:
   - identifier: test
     name: 测试
-    price: 2000
+    price: 2000.0
     duration: 84000
+    decoration_type:
+      - bold

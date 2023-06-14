@@ -48,7 +48,7 @@ public class PlayerData {
     }
 
     public String getDisplayedPrefix() {
-        return displayedPrefix.getName() == null? "萌新驾到": displayedPrefix.getName();
+        return displayedPrefix == null? "萌新驾到": displayedPrefix.getName();
     }
 
     public HashMap<String, PlayerPrefixData> getOwnedPrefixes() {

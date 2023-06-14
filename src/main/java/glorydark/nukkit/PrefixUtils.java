@@ -1,5 +1,8 @@
 package glorydark.nukkit;
 
+import cn.nukkit.Player;
+import cn.nukkit.Server;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -33,6 +36,12 @@ public class PrefixUtils {
         Date date = new Date(millis);
         SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
         return format.format(date);
+    }
+
+    public static void broadcastMessage(String message){
+        for(Player player: Server.getInstance().getOnlinePlayers().values()){
+            player.sendMessage(message);
+        }
     }
 
 }

@@ -1,6 +1,5 @@
 package glorydark.nukkit;
 
-import cn.nukkit.Player;
 import glorydark.nukkit.data.PlayerData;
 import glorydark.nukkit.data.PlayerPrefixData;
 import glorydark.nukkit.data.PrefixData;

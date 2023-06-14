@@ -1,17 +1,24 @@
 package glorydark.nukkit.forms;
 
 import cn.nukkit.Player;
+import cn.nukkit.Server;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
-import cn.nukkit.event.player.PlayerFormRespondedEvent;
+import cn.nukkit.event.player.*;
 import cn.nukkit.form.window.FormWindow;
 import cn.nukkit.form.window.FormWindowCustom;
 import cn.nukkit.form.window.FormWindowModal;
 import cn.nukkit.form.window.FormWindowSimple;
 import glorydark.nukkit.PrefixAPI;
+import glorydark.nukkit.PrefixMain;
+import glorydark.nukkit.PrefixUtils;
+import glorydark.nukkit.data.MessageDecorationType;
 import glorydark.nukkit.data.PlayerData;
 import glorydark.nukkit.data.PlayerPrefixData;
+import glorydark.nukkit.data.PrefixData;
+import glorydark.nukkit.event.PrefixModifyMessageEvent;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -21,6 +28,40 @@ public class PrefixEventListener implements Listener {
     
     public static void showFormWindow(Player player, FormWindow window, FormType guiType) {
         UI_CACHE.computeIfAbsent(player, i -> new HashMap<>()).put(player.showFormWindow(window), guiType);
+    }
+
+    @EventHandler
+    public void PlayerJoinEvent(PlayerJoinEvent event){
+        Player player = event.getPlayer();
+        File file = new File(PrefixMain.path + "/" + player.getName() + ".yml");
+        if(file.exists()){
+            PlayerData playerData = new PlayerData(file);
+            for(Map.Entry<String, PlayerPrefixData> entry : playerData.getOwnedPrefixes().entrySet()){
+                if(!PrefixMain.prefixDataHashMap.containsKey(entry.getKey())){
+                    playerData.getOwnedPrefixes().remove(entry.getKey()); // 移除不存在的称号
+                }
+            }
+            PrefixMain.playerPrefixDataHashMap.put(player.getName(), playerData);
+        }
+    }
+
+    @EventHandler
+    public void PlayerQuitEvent(PlayerQuitEvent event){
+        Player player = event.getPlayer();
+        PrefixMain.playerPrefixDataHashMap.remove(player.getName());
+    }
+
+
+    @EventHandler
+    public void PlayerMessageEvent(PlayerChatEvent event){
+        Player player = event.getPlayer();
+        String identifier = PrefixAPI.getPlayerPrefixData(player.getName()).getDisplayedPrefix();
+        PrefixModifyMessageEvent prefixModifyMessageEvent = new PrefixModifyMessageEvent(player, identifier);
+        Server.getInstance().getPluginManager().callEvent(prefixModifyMessageEvent);
+        if(!prefixModifyMessageEvent.isCancelled()){
+            PrefixUtils.broadcastMessage(prefixModifyMessageEvent.getMessageModifier()+"["+ prefixModifyMessageEvent.getDisplayedPrefix()+"§r"+prefixModifyMessageEvent.getMessageModifier()+"§f] "+event.getPlayer().getName()+": "+event.getMessage());
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler

@@ -3,6 +3,7 @@ package glorydark.nukkit;
 import cn.nukkit.Player;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
+import glorydark.nukkit.forms.FormMain;
 
 public class PrefixCommand extends Command {
     public PrefixCommand(String command) {
@@ -26,6 +27,9 @@ public class PrefixCommand extends Command {
                     }else{
                         commandSender.sendMessage("§c* 不存在该称号！");
                     }
+                    break;
+                case "wear":
+                    FormMain.showSelectPrefix(player);
                     break;
             }
         }
