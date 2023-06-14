@@ -65,12 +65,17 @@ public class PrefixData {
     }
 
     public void buy(Player player){
-        if(EconomyAPI.getInstance().myMoney(player) >= this.getCost()){
+        double ownMoney = EconomyAPI.getInstance().myMoney(player);
+        if(ownMoney >= this.getCost()){
             if(PrefixAPI.addOwnedPrefixes(player.getName(), this.getName(), this.getDuration())) {
                 EconomyAPI.getInstance().reduceMoney(player, this.getCost());
                 long expireMillis = PrefixAPI.getPlayerPrefixData(player.getName()).getOwnedPrefixes().get(this.getIdentifier()).getExpireMillis();
                 player.sendMessage("成功花费 ["+this.getCost()+"] "+EconomyAPI.getInstance().getName()+"购买 ["+this.getName()+"] " + (expireMillis == -1? "永久":PrefixUtils.secToTime((int) (expireMillis/1000))));
+            }else{
+                player.sendMessage("称号购买出现问题，购买称号标识符："+this.getIdentifier()+"！");
             }
+        }else{
+            player.sendMessage("您的金币不足，还差"+EconomyAPI.getInstance().getName()+"*"+(cost - ownMoney));
         }
     }
 }
