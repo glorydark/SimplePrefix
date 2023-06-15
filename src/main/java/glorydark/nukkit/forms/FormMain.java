@@ -14,15 +14,22 @@ import java.util.Set;
 
 public class FormMain {
 
-    public static String noSelectedItemText = "- 未选择 -";
+    public static String defaultPrefix = "默认称号";
 
     public static String notFound = "未知项目";
 
     public static String returnString = "返回";
 
+    public static void showPrefixMain(Player player){
+        FormWindowSimple window = new FormWindowSimple("称号系统", "选择您需要的功能吧！");
+        window.addButton(new ElementButton("购买称号"));
+        window.addButton(new ElementButton("我的称号"));
+        PrefixEventListener.showFormWindow(player, window, FormType.PrefixMain);
+    }
+
     public static void showSelectPrefix(Player player){
         FormWindowSimple window = new FormWindowSimple("称号系统 - 设置展示称号", "请选择您要展示的称号！");
-        window.addButton(new ElementButton(noSelectedItemText));
+        window.addButton(new ElementButton(defaultPrefix));
         Set<Map.Entry<String, PlayerPrefixData>> dataList = PrefixAPI.getPlayerPrefixData(player.getName()).getOwnedPrefixes().entrySet();
         if(dataList.size() > 0) {
             for (Map.Entry<String, PlayerPrefixData> data : dataList) {
@@ -48,7 +55,8 @@ public class FormMain {
                 if(prefixData == null){
                     window.addButton(new ElementButton(notFound));
                 }else{
-                    window.addButton(new ElementButton(prefixData.getName()+"\n价格："+prefixData.getCost()+"金币 | 持续时间："+ PrefixUtils.secToTime((int) (prefixData.getDuration() / 1000))));
+                    long duration = prefixData.getDuration();
+                    window.addButton(new ElementButton(prefixData.getName()+"\n价格："+prefixData.getCost()+"金币 | 期限："+ (duration == -1? "永久": PrefixUtils.secToTime((int) (duration / 1000)))));
                 }
             }
         }

@@ -4,7 +4,10 @@ import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
-import cn.nukkit.event.player.*;
+import cn.nukkit.event.player.PlayerChatEvent;
+import cn.nukkit.event.player.PlayerFormRespondedEvent;
+import cn.nukkit.event.player.PlayerJoinEvent;
+import cn.nukkit.event.player.PlayerQuitEvent;
 import cn.nukkit.form.window.FormWindow;
 import cn.nukkit.form.window.FormWindowCustom;
 import cn.nukkit.form.window.FormWindowModal;
@@ -12,7 +15,6 @@ import cn.nukkit.form.window.FormWindowSimple;
 import glorydark.nukkit.PrefixAPI;
 import glorydark.nukkit.PrefixMain;
 import glorydark.nukkit.PrefixUtils;
-import glorydark.nukkit.data.MessageDecorationType;
 import glorydark.nukkit.data.PlayerData;
 import glorydark.nukkit.data.PlayerPrefixData;
 import glorydark.nukkit.data.PrefixData;
@@ -33,7 +35,7 @@ public class PrefixEventListener implements Listener {
     @EventHandler
     public void PlayerJoinEvent(PlayerJoinEvent event){
         Player player = event.getPlayer();
-        File file = new File(PrefixMain.path + "/" + player.getName() + ".yml");
+        File file = new File(PrefixMain.path + "/players/" + player.getName() + ".yml");
         if(file.exists()){
             PlayerData playerData = new PlayerData(file);
             for(Map.Entry<String, PlayerPrefixData> entry : playerData.getOwnedPrefixes().entrySet()){
@@ -95,20 +97,28 @@ public class PrefixEventListener implements Listener {
         }
         switch (guiType){
             case SelectPrefix:
+                if(window.getResponse().getClickedButton().getText().equals(FormMain.notFound)){
+                    player.sendMessage("§c该称号已被移除或已不存在！");
+                    return;
+                }
                 int id = window.getResponse().getClickedButtonId() - 1;
+                PlayerData data = PrefixAPI.getPlayerPrefixData(player.getName());
                 if(id < 0){
-                    player.sendMessage("您还未选择一个称号");
+                    if(data.getDisplayedPrefixData() != null){
+                        data.setDisplayedPrefix("null", true);
+                    }
+                    player.sendMessage("§a成功设置当前称号为："+PrefixMain.defaultPrefix);
+                    PrefixMain.playerPrefixDataHashMap.put(player.getName(), data);
                     return;
                 }else{
-                    PlayerData data = PrefixAPI.getPlayerPrefixData(player.getName());
                     Set<Map.Entry<String, PlayerPrefixData>> entrySet = data.getOwnedPrefixes().entrySet();
                     if(entrySet.size() >= id + 1){
                         Map.Entry<String, PlayerPrefixData> entry = (Map.Entry<String, PlayerPrefixData>) entrySet.toArray()[id];
                         String identifier = entry.getValue().getIdentifier();
                         if(PrefixAPI.setDisplayedPrefix(player.getName(), identifier)) {
-                            player.sendMessage("成功设置当前称号为" +PrefixAPI.getPrefixData(identifier).getName());
+                            player.sendMessage("§a成功设置当前称号为:" +PrefixAPI.getPrefixData(identifier).getName());
                         }else{
-                            player.sendMessage("该称号可能出现问题，请联系管理！");
+                            player.sendMessage("§c该称号可能出现问题，请联系管理！");
                         }
                     }
                 }
@@ -121,6 +131,18 @@ public class PrefixEventListener implements Listener {
                         Map.Entry<String, PrefixData> entry = (Map.Entry<String, PrefixData>) entrySet.toArray()[id];
                         entry.getValue().buy(player);
                     }
+                }else{
+                    FormMain.showPrefixMain(player);
+                }
+                break;
+            case PrefixMain:
+                switch (window.getResponse().getClickedButtonId()){
+                    case 0:
+                        FormMain.showBuyPrefix(player);
+                        break;
+                    case 1:
+                        FormMain.showSelectPrefix(player);
+                        break;
                 }
                 break;
         }

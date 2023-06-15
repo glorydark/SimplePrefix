@@ -14,7 +14,8 @@ public class PrefixCommand extends Command {
     public boolean execute(CommandSender commandSender, String s, String[] strings) {
         if(commandSender.isPlayer()){
             if(strings.length == 0){
-                return false;
+               FormMain.showPrefixMain(commandSender.asPlayer());
+               return true;
             }
             Player player = (Player) commandSender;
             switch (strings[0]){

@@ -1,5 +1,6 @@
 package glorydark.nukkit;
 
+import cn.nukkit.utils.Config;
 import glorydark.nukkit.data.PlayerData;
 import glorydark.nukkit.data.PlayerPrefixData;
 import glorydark.nukkit.data.PrefixData;
@@ -23,7 +24,7 @@ public class PrefixAPI {
     public static boolean setDisplayedPrefix(String player, String identifier){
         PlayerData data = getPlayerPrefixData(player);
         if(data.getOwnedPrefixes().containsKey(identifier)){
-            if(data.getDisplayedPrefixData().getIdentifier().equals(identifier)){
+            if(data.getDisplayedPrefixData() == null || data.getDisplayedPrefixData().getIdentifier().equals(identifier)){
                 data.setDisplayedPrefix(identifier, true);
                 return true;
             }
@@ -43,27 +44,31 @@ public class PrefixAPI {
     public static boolean addOwnedPrefixes(String player, String identifier, long duration) {
         PlayerData data = getPlayerPrefixData(player);
         PrefixData prefixData = PrefixAPI.getPrefixData(identifier);
+        data.setConfig(new Config(PrefixMain.path+"/players/"+player+".yml", Config.YAML)); // 防止为空
         if(data.getDisplayedPrefix().equals("")) {
             data.setDisplayedPrefix(identifier, true);
         }
         if(prefixData == null){
             return false;
         }
-        if(data.getConfig() != null){
-            long expiredMillis;
-            if(data.getOwnedPrefixes().containsKey(identifier)){
-                String expireDate = data.getConfig().get("prefixes."+identifier, "");
-                if(expireDate.equals("permanent")){
-                    return false;
-                }
-                expiredMillis = Long.parseLong(expireDate) + duration;
-            }else{
-                expiredMillis = System.currentTimeMillis() + duration;
-            }
-            data.getConfig().set("prefixes."+identifier, duration == -1? "permanent" :  expiredMillis);
-            data.getOwnedPrefixes().put(identifier, new PlayerPrefixData(prefixData.getIdentifier(), expiredMillis));
-            data.getConfig().save();
+        long expiredMillis;
+        String expireDate = data.getConfig().get("prefixes."+identifier, "");
+        if(expireDate.equals("") || expireDate.equals("permanent")){
+            return false;
         }
+        if(data.getOwnedPrefixes().containsKey(identifier)){
+            expiredMillis = Long.parseLong(expireDate) + duration;
+        }else{
+            expiredMillis = System.currentTimeMillis() + duration;
+        }
+        if(duration == -1){
+            data.getConfig().set("prefixes."+identifier, "permanent");
+            data.getOwnedPrefixes().put(identifier, new PlayerPrefixData(prefixData.getIdentifier(), -1));
+        }else{
+            data.getConfig().set("prefixes."+identifier, expiredMillis);
+            data.getOwnedPrefixes().put(identifier, new PlayerPrefixData(prefixData.getIdentifier(), expiredMillis));
+        }
+        data.getConfig().save();
         PrefixMain.playerPrefixDataHashMap.put(player, data);
         return true;
     }

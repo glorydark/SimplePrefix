@@ -14,16 +14,15 @@ public class PlayerData {
 
     protected PrefixData displayedPrefix;
 
-    protected HashMap<String, PlayerPrefixData> ownedPrefixes;
+    protected HashMap<String, PlayerPrefixData> ownedPrefixes = new HashMap<>();
 
     public PlayerData(){
         this.config = null; // 临时创建的时候，不创建config
         this.displayedPrefix = null;
-        this.ownedPrefixes = new HashMap<>();
     }
 
     public PlayerData(String player){
-        File file = new File(PrefixMain.path+"/"+player+".yml");
+        File file = new File(PrefixMain.path+"/players/"+player+".yml");
         if(!file.exists()) {
             this.config = new Config(file, Config.YAML);
         }
@@ -39,7 +38,8 @@ public class PlayerData {
         this.fixConfig();
         this.displayedPrefix = PrefixAPI.getPrefixData((config.getString("displayed_prefix")));
         for(String identifier : config.getSection("prefixes").getKeys(false)){
-            this.ownedPrefixes.put(identifier, new PlayerPrefixData(identifier, config.getLong("prefixes."+identifier)));
+            String expireMillis = config.get("prefixes."+identifier).toString();
+            this.ownedPrefixes.put(identifier, new PlayerPrefixData(identifier, expireMillis.equals("permanent")? -1: Long.parseLong(expireMillis)));
         }
     }
 
@@ -48,7 +48,7 @@ public class PlayerData {
     }
 
     public String getDisplayedPrefix() {
-        return displayedPrefix == null? "萌新驾到": displayedPrefix.getName();
+        return displayedPrefix == null? PrefixMain.defaultPrefix: displayedPrefix.getName();
     }
 
     public HashMap<String, PlayerPrefixData> getOwnedPrefixes() {
@@ -57,6 +57,10 @@ public class PlayerData {
 
     public Config getConfig() {
         return config;
+    }
+
+    public void setConfig(Config config) {
+        this.config = config;
     }
 
     public void setDisplayedPrefix(String identifier, boolean save){
@@ -70,7 +74,7 @@ public class PlayerData {
     protected void fixConfig(){
         if(config != null) {
             if (!config.exists("displayed_prefix")) {
-                config.set("displayed_prefix", "");
+                config.set("displayed_prefix", "null");
             }
             if (!config.exists("prefixes")) {
                 config.set("prefixes", new ArrayList<>());
