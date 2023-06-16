@@ -126,7 +126,7 @@ public class PrefixEventListener implements Listener {
             case BuyPrefix:
                 id = window.getResponse().getClickedButtonId() - 1;
                 if(id >= 0){
-                    Set<Map.Entry<String, PrefixData>> entrySet = PrefixMain.prefixDataHashMap.entrySet();
+                    Set<Map.Entry<String, PrefixData>> entrySet = PrefixMain.purchasablePrefixDataHashMap.entrySet();
                     if(entrySet.size() >= id + 1){
                         Map.Entry<String, PrefixData> entry = (Map.Entry<String, PrefixData>) entrySet.toArray()[id];
                         entry.getValue().buy(player);

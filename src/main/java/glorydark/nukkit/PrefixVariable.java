@@ -13,4 +13,5 @@ public class PrefixVariable extends BaseVariable {
     public void strReplace() {
         this.addStrReplaceString("{prefix}", PrefixAPI.getPlayerPrefixData(player.getName()).getDisplayedPrefix());
     }
+
 }

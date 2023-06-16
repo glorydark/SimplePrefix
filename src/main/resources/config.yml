@@ -10,3 +10,7 @@ prefixes:
     duration: 604800000
     decoration_type:
       - bold
+  - identifier: §6§ltest
+    name: Haper
+    decoration_type:
+      - bold

@@ -23,10 +23,10 @@ public class PrefixCommand extends Command {
                     if(strings.length != 2){
                         FormMain.showBuyPrefix(player);
                     }else {
-                        if (PrefixMain.prefixDataHashMap.containsKey(strings[1])) {
+                        if (PrefixMain.purchasablePrefixDataHashMap.containsKey(strings[1])) {
                             PrefixAPI.getPrefixData(strings[1]).buy(player);
                         } else {
-                            commandSender.sendMessage("§c* 不存在该称号！");
+                            commandSender.sendMessage("§c* 该称号不可购买或不存在！");
                         }
                     }
                     break;

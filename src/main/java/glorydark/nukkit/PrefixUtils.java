@@ -8,21 +8,24 @@ import java.util.Date;
 
 public class PrefixUtils {
     public static String secToTime(int seconds) {
-        int day = seconds / 86400000;
+        int day = seconds / 86400;
         int hour = seconds / 3600;
         int minute = (seconds - hour * 3600) / 60;
         int second = seconds - hour * 3600 - minute * 60;
         StringBuilder sb = new StringBuilder();
         if(day > 0){
             sb.append(day).append("天");
+            hour-=24*day;
         }
 
         if (hour > 0) {
             sb.append(hour).append("小时");
+            minute-=hour*60;
         }
 
         if (minute > 0) {
             sb.append(minute).append("分钟");
+            second-= minute*60;
         }
 
         if (second > 0) {

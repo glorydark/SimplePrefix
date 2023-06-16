@@ -27,6 +27,8 @@ public class PrefixMain extends PluginBase implements Listener {
 
     public static HashMap<String, PrefixData> prefixDataHashMap = new HashMap<>();
 
+    public static HashMap<String, PrefixData> purchasablePrefixDataHashMap = new HashMap<>();
+
     @Override
     public void onEnable() {
         path = this.getDataFolder().getPath();
@@ -50,7 +52,11 @@ public class PrefixMain extends PluginBase implements Listener {
                 for(String s: new ArrayList<>(config.getStringList("decoration_types"))){
                     typeStringList.add(MessageDecorationType.valueOf(s));
                 }
-                prefixDataHashMap.put(identifier, new PrefixData(identifier, (String) prefixDatum.get("name"), (Double) prefixDatum.get("price"), prefixDatum.get("duration").toString().equals("permanent")? -1: Long.parseLong(prefixDatum.get("duration").toString()), typeStringList));
+                PrefixData data = new PrefixData(identifier, (String) prefixDatum.get("name"), (Double) prefixDatum.getOrDefault("price", -1), prefixDatum.getOrDefault("duration", 0).toString().equals("permanent")? -1: Long.parseLong(prefixDatum.get("duration").toString()), typeStringList);
+                prefixDataHashMap.put(identifier, data);
+                if(data.getCost() >= 0){
+                    purchasablePrefixDataHashMap.put(identifier, data);
+                }
             }
         }
     }

@@ -48,7 +48,7 @@ public class FormMain {
     public static void showBuyPrefix(Player player){
         FormWindowSimple window = new FormWindowSimple("称号系统 - 购买称号", "请选择您要购买的称号！");
         window.addButton(new ElementButton(returnString));
-        Set<Map.Entry<String, PrefixData>> dataList = PrefixMain.prefixDataHashMap.entrySet();
+        Set<Map.Entry<String, PrefixData>> dataList = PrefixMain.purchasablePrefixDataHashMap.entrySet();
         if(dataList.size() > 0) {
             for (Map.Entry<String, PrefixData> data : dataList) {
                 PrefixData prefixData = data.getValue();

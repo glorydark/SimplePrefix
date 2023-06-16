@@ -13,7 +13,7 @@ public class PrefixData {
 
     private String name;
 
-    private double cost;
+    private double cost; // -1就是不售卖
 
     private long duration;
 
@@ -65,6 +65,10 @@ public class PrefixData {
     }
 
     public void buy(Player player){
+        if(cost < 0){
+            player.sendMessage("该称号不可购买！");
+            return;
+        }
         double ownMoney = EconomyAPI.getInstance().myMoney(player);
         if(ownMoney >= this.getCost()){
             if(PrefixAPI.addOwnedPrefixes(player.getName(), this.getIdentifier(), this.getDuration())) {
