@@ -9,6 +9,7 @@ import glorydark.nukkit.data.MessageDecorationType;
 import glorydark.nukkit.data.PlayerData;
 import glorydark.nukkit.data.PrefixData;
 import glorydark.nukkit.forms.PrefixEventListener;
+import tip.utils.Api;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class PrefixMain extends PluginBase implements Listener {
         this.reloadPlayerData();
         this.getServer().getPluginManager().registerEvents(new PrefixEventListener(), this);
         this.getServer().getCommandMap().register("", new PrefixCommand("prefix"));
+        Api.registerVariables("SimplePrefix", PrefixVariable.class);
         this.getLogger().info("SimplePrefix 加载完成");
     }
 

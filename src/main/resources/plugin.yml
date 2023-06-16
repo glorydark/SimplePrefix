@@ -7,3 +7,4 @@ description: SimplePrefix
 load: POSTWORLD
 depend:
   - EconomyAPI
+  - Tips
