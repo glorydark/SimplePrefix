@@ -23,8 +23,9 @@ public class PrefixAPI {
 
     public static boolean setDisplayedPrefix(String player, String identifier){
         PlayerData data = getPlayerPrefixData(player);
+
         if(data.getOwnedPrefixes().containsKey(identifier)){
-            if(data.getDisplayedPrefixData() == null || data.getDisplayedPrefixData().getIdentifier().equals(identifier)){
+            if(data.getDisplayedPrefixData() == null || !data.getDisplayedPrefixData().getIdentifier().equals(identifier)){
                 data.setDisplayedPrefix(identifier, true);
                 return true;
             }
