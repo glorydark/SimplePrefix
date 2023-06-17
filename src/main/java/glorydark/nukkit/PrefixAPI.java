@@ -54,7 +54,7 @@ public class PrefixAPI {
         }
         long expiredMillis;
         String expireDate = data.getConfig().get("prefixes."+identifier, "");
-        if(expireDate.equals("") || expireDate.equals("permanent")){
+        if(expireDate.equals("permanent")){
             return false;
         }
         if(data.getOwnedPrefixes().containsKey(identifier)){
