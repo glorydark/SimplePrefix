@@ -1,16 +1,7 @@
 prefixes:
-  - identifier: pvper
-    name: Pvper
-    price: 1000.0
-    duration: 604800000
-    decoration_type: []
   - identifier: §6§lhaper
     name: Haper
     price: 20000.0
     duration: 604800000
-    decoration_type:
-      - bold
-  - identifier: §6§ltest
-    name: Haper
     decoration_type:
       - bold
