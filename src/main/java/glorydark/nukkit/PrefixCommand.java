@@ -1,6 +1,7 @@
 package glorydark.nukkit;
 
 import cn.nukkit.Player;
+import cn.nukkit.Server;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import glorydark.nukkit.forms.FormMain;
@@ -32,6 +33,22 @@ public class PrefixCommand extends Command {
                     break;
                 case "wear":
                     FormMain.showSelectPrefix(player);
+                    break;
+            }
+        }else{
+            switch (strings[0]){
+                case "give":
+                    if(strings.length != 4){
+                        return false;
+                    }
+                    String player = strings[1];
+                    String identifier = strings[2];
+                    long duration = Long.parseLong(strings[3]);
+                    if(PrefixAPI.addOwnedPrefixes(player, identifier, duration)){
+                        commandSender.sendMessage("给予成功！");
+                    }else{
+                        commandSender.sendMessage("给予失败！");
+                    }
                     break;
             }
         }
