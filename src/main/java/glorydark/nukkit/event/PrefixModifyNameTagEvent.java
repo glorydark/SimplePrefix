@@ -5,7 +5,6 @@ import cn.nukkit.event.Cancellable;
 import cn.nukkit.event.HandlerList;
 import cn.nukkit.event.player.PlayerEvent;
 import glorydark.nukkit.PrefixAPI;
-import glorydark.nukkit.data.MessageDecorationType;
 import glorydark.nukkit.data.PrefixData;
 
 public class PrefixModifyNameTagEvent extends PlayerEvent implements Cancellable {
@@ -16,10 +15,14 @@ public class PrefixModifyNameTagEvent extends PlayerEvent implements Cancellable
 
     protected String displayedPrefix;
 
-    public PrefixModifyNameTagEvent(Player player, String prefixIdentifier){
+    public PrefixModifyNameTagEvent(Player player, String prefixIdentifier) {
         this.player = player;
         this.prefixData = PrefixAPI.getPrefixData(prefixIdentifier);
         this.displayedPrefix = PrefixAPI.getPlayerPrefixData(player.getName()).getDisplayedPrefix();
+    }
+
+    public static HandlerList getHandlers() {
+        return handlers;
     }
 
     public PrefixData getPrefixData() {
@@ -32,9 +35,5 @@ public class PrefixModifyNameTagEvent extends PlayerEvent implements Cancellable
 
     public void setDisplayedPrefix(String displayedPrefix) {
         this.displayedPrefix = displayedPrefix;
-    }
-
-    public static HandlerList getHandlers() {
-        return handlers;
     }
 }

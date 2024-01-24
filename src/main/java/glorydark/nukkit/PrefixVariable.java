@@ -16,7 +16,7 @@ public class PrefixVariable extends BaseVariable {
         String identifier = PrefixAPI.getPlayerPrefixData(player.getName()).getDisplayedPrefix();
         PrefixModifyNameTagEvent event = new PrefixModifyNameTagEvent(player, identifier);
         Server.getInstance().getPluginManager().callEvent(event);
-        if(!event.isCancelled()){
+        if (!event.isCancelled()) {
             this.addStrReplaceString("{prefix}", event.getDisplayedPrefix());
             event.setCancelled(true);
         }

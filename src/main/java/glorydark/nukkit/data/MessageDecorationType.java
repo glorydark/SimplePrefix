@@ -9,7 +9,7 @@ public enum MessageDecorationType {
 
     private final String name;
 
-    MessageDecorationType(String name){
+    MessageDecorationType(String name) {
         this.name = name;
     }
 
@@ -17,7 +17,7 @@ public enum MessageDecorationType {
         return name;
     }
 
-    public MessageDecorationType getType(String name){
+    public MessageDecorationType getType(String name) {
         return MessageDecorationType.valueOf(name);
     }
 

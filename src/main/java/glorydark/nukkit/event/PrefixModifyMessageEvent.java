@@ -18,14 +18,14 @@ public class PrefixModifyMessageEvent extends PlayerEvent implements Cancellable
 
     protected String messageModifier = "";
 
-    public PrefixModifyMessageEvent(Player player, String prefixIdentifier){
+    public PrefixModifyMessageEvent(Player player, String prefixIdentifier) {
         this.player = player;
         this.prefixData = PrefixAPI.getPrefixData(prefixIdentifier);
         this.displayedPrefix = PrefixAPI.getPlayerPrefixData(player.getName()).getDisplayedPrefix();
-        if(this.prefixData != null){
+        if (this.prefixData != null) {
             StringBuilder messageModifierBuilder = new StringBuilder();
-            for(MessageDecorationType type: this.prefixData.getMessageDecorationTypes()){
-                switch (type){
+            for (MessageDecorationType type : this.prefixData.getMessageDecorationTypes()) {
+                switch (type) {
                     case BOLD:
                         messageModifierBuilder.append("§l");
                         break;
@@ -41,6 +41,10 @@ public class PrefixModifyMessageEvent extends PlayerEvent implements Cancellable
         }
     }
 
+    public static HandlerList getHandlers() {
+        return handlers;
+    }
+
     public PrefixData getPrefixData() {
         return prefixData;
     }
@@ -49,19 +53,15 @@ public class PrefixModifyMessageEvent extends PlayerEvent implements Cancellable
         return messageModifier;
     }
 
+    public void setMessageModifier(String messageModifier) {
+        this.messageModifier = messageModifier;
+    }
+
     public String getDisplayedPrefix() {
         return displayedPrefix;
     }
 
     public void setDisplayedPrefix(String displayedPrefix) {
         this.displayedPrefix = displayedPrefix;
-    }
-
-    public void setMessageModifier(String messageModifier) {
-        this.messageModifier = messageModifier;
-    }
-
-    public static HandlerList getHandlers() {
-        return handlers;
     }
 }
