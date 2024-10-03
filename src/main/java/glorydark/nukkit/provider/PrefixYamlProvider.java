@@ -30,10 +30,8 @@ public class PrefixYamlProvider implements PrefixProvider {
         PlayerData data = getPlayerPrefixData(player);
 
         if (data.getOwnedPrefixes().containsKey(identifier)) {
-            if (data.getDisplayedPrefixData() == null || !data.getDisplayedPrefixData().getIdentifier().equals(identifier)) {
-                data.setDisplayedPrefix(identifier, true);
-                return true;
-            }
+            data.setDisplayedPrefix(identifier, true);
+            return true;
         }
         return false;
     }
@@ -45,11 +43,11 @@ public class PrefixYamlProvider implements PrefixProvider {
      * @param duration   持续时间 - long  -1为永久
      * @return 是否设置成功
      */
-    public boolean addOwnedPrefixes(String player, String identifier, long duration) {
+    public boolean addPrefix(String player, String identifier, long duration) {
         PlayerData data = getPlayerPrefixData(player);
         PrefixData prefixData = getPrefixData(identifier);
         data.setConfig(new Config(PrefixMain.path + "/players/" + player + ".yml", Config.YAML)); // 防止为空
-        if (data.getDisplayedPrefix().equals("")) {
+        if (data.getDisplayedPrefix().isEmpty()) {
             data.setDisplayedPrefix(identifier, true);
         }
         if (prefixData == null) {
@@ -75,5 +73,16 @@ public class PrefixYamlProvider implements PrefixProvider {
         data.getConfig().save();
         PrefixMain.playerPrefixDataHashMap.put(player, data);
         return true;
+    }
+
+    @Override
+    public void removePrefix(String player, String identifier) {
+        PlayerData data = getPlayerPrefixData(player);
+        if (data.getDisplayedPrefix().equals(identifier)) {
+            data.setDisplayedPrefix("null", true);
+        }
+        data.getOwnedPrefixes().remove(identifier);
+        data.getConfig().getSection("prefixes").remove(identifier);
+        data.getConfig().save();
     }
 }

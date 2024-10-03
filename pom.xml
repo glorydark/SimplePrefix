@@ -16,26 +16,6 @@
 
     <repositories>
         <repository>
-            <id>opencollab-repo-release</id>
-            <url>https://repo.opencollab.dev/maven-releases/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>opencollab-repo-snapshot</id>
-            <url>https://repo.opencollab.dev/maven-snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
             <id>repo-lanink-cn</id>
             <url>https://repo.lanink.cn/repository/maven-public/</url>
         </repository>
@@ -44,9 +24,8 @@
     <dependencies>
         <dependency>
             <groupId>cn.nukkit</groupId>
-            <artifactId>nukkit</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>provided</scope>
+            <artifactId>Nukkit</artifactId>
+            <version>MOT-java8-20240709.115146-9</version>
         </dependency>
 
         <dependency>
@@ -68,6 +47,14 @@
             <artifactId>economyapi</artifactId>
             <version>2.0.2</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>glorydark.nukkit</groupId>
+            <artifactId>GameAPI</artifactId>
+            <version>1.2.6.0</version>
+            <scope>system</scope>
+            <systemPath>E:/dependencies/pure-test-mot/plugins/GameAPI-1.2.0.jar</systemPath>
         </dependency>
     </dependencies>
 

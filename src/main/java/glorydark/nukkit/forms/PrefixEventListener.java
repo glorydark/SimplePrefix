@@ -12,6 +12,7 @@ import cn.nukkit.form.window.FormWindow;
 import cn.nukkit.form.window.FormWindowCustom;
 import cn.nukkit.form.window.FormWindowModal;
 import cn.nukkit.form.window.FormWindowSimple;
+import gameapi.manager.RoomManager;
 import glorydark.nukkit.PrefixAPI;
 import glorydark.nukkit.PrefixMain;
 import glorydark.nukkit.PrefixUtils;
@@ -57,12 +58,14 @@ public class PrefixEventListener implements Listener {
     @EventHandler
     public void PlayerMessageEvent(PlayerChatEvent event) {
         Player player = event.getPlayer();
-        String identifier = PrefixAPI.getPlayerPrefixData(player.getName()).getDisplayedPrefix();
-        PrefixModifyMessageEvent prefixModifyMessageEvent = new PrefixModifyMessageEvent(player, identifier);
-        Server.getInstance().getPluginManager().callEvent(prefixModifyMessageEvent);
-        if (!prefixModifyMessageEvent.isCancelled()) {
-            PrefixUtils.broadcastMessage(prefixModifyMessageEvent.getMessageModifier() + "[" + prefixModifyMessageEvent.getDisplayedPrefix() + "§r" + prefixModifyMessageEvent.getMessageModifier() + "§f] " + event.getPlayer().getName() + ": " + event.getMessage());
-            event.setCancelled(true);
+        if (!PrefixMain.gameapiEnabled || RoomManager.getRoom(player) == null) {
+            String identifier = PrefixAPI.getPlayerPrefixData(player.getName()).getDisplayedPrefix();
+            PrefixModifyMessageEvent prefixModifyMessageEvent = new PrefixModifyMessageEvent(player, identifier);
+            Server.getInstance().getPluginManager().callEvent(prefixModifyMessageEvent);
+            if (!prefixModifyMessageEvent.isCancelled()) {
+                PrefixUtils.broadcastMessage(prefixModifyMessageEvent.getMessageModifier() + "[" + prefixModifyMessageEvent.getDisplayedPrefix() + "§r" + prefixModifyMessageEvent.getMessageModifier() + "§f] " + event.getPlayer().getName() + ": " + event.getMessage());
+                event.setCancelled(true);
+            }
         }
     }
 
@@ -117,7 +120,7 @@ public class PrefixEventListener implements Listener {
                         Map.Entry<String, PlayerPrefixData> entry = (Map.Entry<String, PlayerPrefixData>) entrySet.toArray()[id];
                         String identifier = entry.getValue().getIdentifier();
                         if (PrefixAPI.setDisplayedPrefix(player.getName(), identifier)) {
-                            player.sendMessage("§a成功设置当前称号为:" + PrefixAPI.getPrefixData(identifier).getName());
+                            player.sendMessage("§a成功设置当前称号为: " + PrefixAPI.getPrefixData(identifier).getName());
                         } else {
                             player.sendMessage("§c该称号可能出现问题，请联系管理！");
                         }

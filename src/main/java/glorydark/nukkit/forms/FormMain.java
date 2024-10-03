@@ -3,6 +3,7 @@ package glorydark.nukkit.forms;
 import cn.nukkit.Player;
 import cn.nukkit.form.element.ElementButton;
 import cn.nukkit.form.window.FormWindowSimple;
+import cn.nukkit.utils.TextFormat;
 import glorydark.nukkit.PrefixAPI;
 import glorydark.nukkit.PrefixMain;
 import glorydark.nukkit.PrefixUtils;
@@ -31,14 +32,14 @@ public class FormMain {
         FormWindowSimple window = new FormWindowSimple("称号系统 - 设置展示称号", "请选择您要展示的称号！");
         window.addButton(new ElementButton(defaultPrefix));
         Set<Map.Entry<String, PlayerPrefixData>> dataList = PrefixAPI.getPlayerPrefixData(player.getName()).getOwnedPrefixes().entrySet();
-        if (dataList.size() > 0) {
+        if (!dataList.isEmpty()) {
             for (Map.Entry<String, PlayerPrefixData> data : dataList) {
                 String identifier = data.getValue().getIdentifier();
                 PrefixData prefixData = PrefixAPI.getPrefixData(identifier);
                 if (prefixData == null) {
                     window.addButton(new ElementButton(notFound));
                 } else {
-                    window.addButton(new ElementButton(prefixData.getName() + "\n剩余时间：" + PrefixUtils.secToTime((int) ((System.currentTimeMillis() - data.getValue().getExpireMillis()) / 1000))));
+                    window.addButton(new ElementButton(prefixData.getName() + TextFormat.RESET + "\n剩余时间：" + PrefixUtils.secToTime((int) (data.getValue().getExpireMillis() - System.currentTimeMillis()) / 1000)));
                 }
             }
         }
@@ -49,7 +50,7 @@ public class FormMain {
         FormWindowSimple window = new FormWindowSimple("称号系统 - 购买称号", "请选择您要购买的称号！");
         window.addButton(new ElementButton(returnString));
         Set<Map.Entry<String, PrefixData>> dataList = PrefixMain.purchasablePrefixDataHashMap.entrySet();
-        if (dataList.size() > 0) {
+        if (!dataList.isEmpty()) {
             for (Map.Entry<String, PrefixData> data : dataList) {
                 PrefixData prefixData = data.getValue();
                 if (prefixData == null) {

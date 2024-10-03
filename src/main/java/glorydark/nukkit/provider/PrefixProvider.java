@@ -21,5 +21,7 @@ public interface PrefixProvider {
      * @param duration   持续时间 - long  -1为永久
      * @return 是否设置成功
      */
-    boolean addOwnedPrefixes(String player, String identifier, long duration);
+    boolean addPrefix(String player, String identifier, long duration);
+
+    void removePrefix(String player, String identifier);
 }

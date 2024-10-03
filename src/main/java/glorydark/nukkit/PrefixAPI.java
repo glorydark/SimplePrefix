@@ -27,7 +27,16 @@ public class PrefixAPI {
      * @param duration   持续时间 - long  -1为永久
      * @return 是否设置成功
      */
-    public static boolean addOwnedPrefixes(String player, String identifier, long duration) {
-        return PrefixMain.getPlugin().getProvider().addOwnedPrefixes(player, identifier, duration);
+    public static boolean addOwnedPrefix(String player, String identifier, long duration) {
+        return PrefixMain.getPlugin().getProvider().addPrefix(player, identifier, duration);
+    }
+
+    /**
+     * @param player     玩家名 - 字符串
+     * @param identifier 称号名称 - 字符串
+     * @return 是否移除成功
+     */
+    public static void removePrefix(String player, String identifier) {
+        PrefixMain.getPlugin().getProvider().removePrefix(player, identifier);
     }
 }

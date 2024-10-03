@@ -1,9 +1,13 @@
 package glorydark.nukkit;
 
 import cn.nukkit.Player;
+import cn.nukkit.Server;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
+import cn.nukkit.utils.TextFormat;
+import glorydark.nukkit.data.PrefixData;
 import glorydark.nukkit.forms.FormMain;
+import org.checkerframework.checker.units.qual.Prefix;
 
 public class PrefixCommand extends Command {
     public PrefixCommand(String command) {
@@ -36,6 +40,11 @@ public class PrefixCommand extends Command {
             }
         } else {
             switch (strings[0]) {
+                case "reload":
+                    PrefixMain.getPlugin().loadPrefix();
+                    PrefixMain.getPlugin().reloadPlayerData();
+                    commandSender.sendMessage(TextFormat.GREEN + "重载称号及玩家数据成功！");
+                    break;
                 case "give":
                     if (strings.length != 4) {
                         return false;
@@ -43,8 +52,13 @@ public class PrefixCommand extends Command {
                     String player = strings[1];
                     String identifier = strings[2];
                     long duration = Long.parseLong(strings[3]);
-                    if (PrefixAPI.addOwnedPrefixes(player, identifier, duration)) {
-                        commandSender.sendMessage("给予成功！");
+                    if (PrefixAPI.addOwnedPrefix(player, identifier, duration)) {
+                        PrefixData prefixData = PrefixMain.getPlugin().getProvider().getPrefixData(identifier);
+                        commandSender.sendMessage(TextFormat.GREEN + "给予玩家称号 " + prefixData.getName() + TextFormat.RESET + " * " + PrefixUtils.secToTime((int) (duration / 1000L)) + " 成功");
+                        Player recipient = Server.getInstance().getPlayer(player);
+                        if (recipient != null) {
+                            recipient.sendMessage(TextFormat.GOLD + "恭喜你获得称号 " + prefixData.getName() + TextFormat.RESET + " * " + PrefixUtils.secToTime((int) (duration / 1000L)));
+                        }
                     } else {
                         commandSender.sendMessage("给予失败！");
                     }
