@@ -18,7 +18,7 @@ public class PrefixModifyNameTagEvent extends PlayerEvent implements Cancellable
     public PrefixModifyNameTagEvent(Player player, String prefixIdentifier) {
         this.player = player;
         this.prefixData = PrefixAPI.getPrefixData(prefixIdentifier);
-        this.displayedPrefix = PrefixAPI.getPlayerPrefixData(player.getName()).getDisplayedPrefix();
+        this.displayedPrefix = PrefixAPI.getPlayerPrefixData(player.getName()).getDisplayedPrefixName();
     }
 
     public static HandlerList getHandlers() {

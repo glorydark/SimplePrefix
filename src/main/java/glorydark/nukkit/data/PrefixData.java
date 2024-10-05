@@ -8,20 +8,17 @@ import me.onebone.economyapi.EconomyAPI;
 import java.util.List;
 
 public class PrefixData {
-
-    private final List<MessageDecorationType> messageDecorationTypes;
     private String identifier;
     private String name;
     private double cost; // -1就是不售卖
     private long duration;
 
 
-    public PrefixData(String identifier, String name, double cost, long duration, List<MessageDecorationType> messageDecorationTypes) {
+    public PrefixData(String identifier, String name, double cost, long duration) {
         this.identifier = identifier;
         this.name = name;
         this.cost = cost;
         this.duration = duration;
-        this.messageDecorationTypes = messageDecorationTypes;
     }
 
     public double getCost() {
@@ -54,10 +51,6 @@ public class PrefixData {
 
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
-    }
-
-    public List<MessageDecorationType> getMessageDecorationTypes() {
-        return messageDecorationTypes;
     }
 
     public void buy(Player player) {

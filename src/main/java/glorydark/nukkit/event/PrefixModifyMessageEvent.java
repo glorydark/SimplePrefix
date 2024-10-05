@@ -21,23 +21,9 @@ public class PrefixModifyMessageEvent extends PlayerEvent implements Cancellable
     public PrefixModifyMessageEvent(Player player, String prefixIdentifier) {
         this.player = player;
         this.prefixData = PrefixAPI.getPrefixData(prefixIdentifier);
-        this.displayedPrefix = PrefixAPI.getPlayerPrefixData(player.getName()).getDisplayedPrefix();
+        this.displayedPrefix = PrefixAPI.getPlayerPrefixData(player.getName()).getDisplayedPrefixName();
         if (this.prefixData != null) {
-            StringBuilder messageModifierBuilder = new StringBuilder();
-            for (MessageDecorationType type : this.prefixData.getMessageDecorationTypes()) {
-                switch (type) {
-                    case BOLD:
-                        messageModifierBuilder.append("§l");
-                        break;
-                    case ITALIC:
-                        messageModifierBuilder.append("§o");
-                        break;
-                    case UNDERLINED:
-                        messageModifierBuilder.append("§n");
-                        break;
-                }
-            }
-            this.messageModifier = messageModifierBuilder.toString();
+            this.messageModifier = "";
         }
     }
 

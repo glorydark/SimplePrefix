@@ -16,7 +16,7 @@ public class PrefixEventListenerForGameAPI implements GameListener {
     @GameEventHandler
     public void RoomPlayerChatEvent(RoomPlayerChatEvent event) {
         Player player = event.getPlayer();
-        String identifier = PrefixAPI.getPlayerPrefixData(player.getName()).getDisplayedPrefix();
+        String identifier = PrefixAPI.getPlayerPrefixData(player.getName()).getDisplayedPrefixName();
         PrefixModifyMessageEvent prefixModifyMessageEvent = new PrefixModifyMessageEvent(player, identifier);
         Server.getInstance().getPluginManager().callEvent(prefixModifyMessageEvent);
         if (!prefixModifyMessageEvent.isCancelled()) {

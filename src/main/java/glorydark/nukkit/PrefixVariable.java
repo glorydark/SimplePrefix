@@ -13,7 +13,7 @@ public class PrefixVariable extends BaseVariable {
 
     @Override
     public void strReplace() {
-        String identifier = PrefixAPI.getPlayerPrefixData(player.getName()).getDisplayedPrefix();
+        String identifier = PrefixAPI.getPlayerPrefixData(player.getName()).getDisplayedPrefixName();
         PrefixModifyNameTagEvent event = new PrefixModifyNameTagEvent(player, identifier);
         Server.getInstance().getPluginManager().callEvent(event);
         if (!event.isCancelled()) {

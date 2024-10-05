@@ -21,7 +21,6 @@ import glorydark.nukkit.data.PlayerPrefixData;
 import glorydark.nukkit.data.PrefixData;
 import glorydark.nukkit.event.PrefixModifyMessageEvent;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -36,22 +35,14 @@ public class PrefixEventListener implements Listener {
     @EventHandler
     public void PlayerJoinEvent(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        File file = new File(PrefixMain.path + "/players/" + player.getName() + ".yml");
-        if (file.exists()) {
-            PlayerData playerData = new PlayerData(file);
-            for (Map.Entry<String, PlayerPrefixData> entry : playerData.getOwnedPrefixes().entrySet()) {
-                if (!PrefixMain.prefixDataHashMap.containsKey(entry.getKey())) {
-                    playerData.getOwnedPrefixes().remove(entry.getKey()); // 移除不存在的称号
-                }
-            }
-            PrefixMain.playerPrefixDataHashMap.put(player.getName(), playerData);
-        }
+
     }
 
     @EventHandler
     public void PlayerQuitEvent(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         PrefixMain.playerPrefixDataHashMap.remove(player.getName());
+        PrefixMain.getPlugin().getProvider().generatePlayerTempCache(player);
     }
 
 
@@ -59,7 +50,7 @@ public class PrefixEventListener implements Listener {
     public void PlayerMessageEvent(PlayerChatEvent event) {
         Player player = event.getPlayer();
         if (!PrefixMain.gameapiEnabled || RoomManager.getRoom(player) == null) {
-            String identifier = PrefixAPI.getPlayerPrefixData(player.getName()).getDisplayedPrefix();
+            String identifier = PrefixAPI.getPlayerPrefixData(player.getName()).getDisplayedPrefixName();
             PrefixModifyMessageEvent prefixModifyMessageEvent = new PrefixModifyMessageEvent(player, identifier);
             Server.getInstance().getPluginManager().callEvent(prefixModifyMessageEvent);
             if (!prefixModifyMessageEvent.isCancelled()) {

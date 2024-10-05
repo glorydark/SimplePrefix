@@ -1,5 +1,6 @@
 package glorydark.nukkit.provider;
 
+import cn.nukkit.Player;
 import glorydark.nukkit.data.PlayerData;
 import glorydark.nukkit.data.PrefixData;
 
@@ -24,4 +25,10 @@ public interface PrefixProvider {
     boolean addPrefix(String player, String identifier, long duration);
 
     void removePrefix(String player, String identifier);
+
+    void reloadPlayerData();
+
+    void loadPrefix();
+
+    void generatePlayerTempCache(Player player);
 }

@@ -45,6 +45,7 @@ public class PrefixUtils {
         for (Player player : Server.getInstance().getOnlinePlayers().values()) {
             player.sendMessage(message);
         }
+        PrefixMain.getPlugin().getLogger().info(message);
     }
 
 }
