@@ -35,14 +35,13 @@ public class PrefixEventListener implements Listener {
     @EventHandler
     public void PlayerJoinEvent(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-
+        PrefixMain.getPlugin().getProvider().generatePlayerTempCache(player);
     }
 
     @EventHandler
     public void PlayerQuitEvent(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         PrefixMain.playerPrefixDataHashMap.remove(player.getName());
-        PrefixMain.getPlugin().getProvider().generatePlayerTempCache(player);
     }
 
 
@@ -54,7 +53,7 @@ public class PrefixEventListener implements Listener {
             PrefixModifyMessageEvent prefixModifyMessageEvent = new PrefixModifyMessageEvent(player, identifier);
             Server.getInstance().getPluginManager().callEvent(prefixModifyMessageEvent);
             if (!prefixModifyMessageEvent.isCancelled()) {
-                PrefixUtils.broadcastMessage(prefixModifyMessageEvent.getMessageModifier() + "[" + prefixModifyMessageEvent.getDisplayedPrefix() + "§r" + prefixModifyMessageEvent.getMessageModifier() + "§f] " + event.getPlayer().getName() + ": " + event.getMessage());
+                PrefixUtils.broadcastMessage("[" + prefixModifyMessageEvent.getMessageModifier() + prefixModifyMessageEvent.getDisplayedPrefix() + "§r] " + event.getPlayer().getName() + ": " + event.getMessage());
                 event.setCancelled(true);
             }
         }

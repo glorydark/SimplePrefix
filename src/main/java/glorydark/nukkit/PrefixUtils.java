@@ -7,11 +7,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class PrefixUtils {
-    public static String secToTime(int seconds) {
-        int day = seconds / 86400;
-        int hour = seconds / 3600;
-        int minute = (seconds - hour * 3600) / 60;
-        int second = seconds - hour * 3600 - minute * 60;
+
+    public static void main(String[] args) {
+        System.out.println(secToTime(2590650216L / 1000));
+    }
+
+    public static String secToTime(long seconds) {
+        long day = seconds / 86400;
+        long hour = seconds / 3600;
+        long minute = (seconds - hour * 3600) / 60;
+        long second = seconds - hour * 3600 - minute * 60;
         StringBuilder sb = new StringBuilder();
         if (day > 0) {
             sb.append(day).append("天");

@@ -1,17 +1,15 @@
 package glorydark.nukkit.data;
 
-import cn.nukkit.utils.Config;
-import glorydark.nukkit.PrefixAPI;
 import glorydark.nukkit.PrefixMain;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public abstract class PlayerData {
 
     protected PrefixData displayedPrefix;
 
-    protected HashMap<String, PlayerPrefixData> ownedPrefixes = new HashMap<>();
+    protected Map<String, PlayerPrefixData> ownedPrefixes = new LinkedHashMap<>();
 
     public PlayerData() {
         this.displayedPrefix = null;
@@ -33,7 +31,7 @@ public abstract class PlayerData {
         return displayedPrefix == null ? PrefixMain.defaultPrefix : displayedPrefix.getName();
     }
 
-    public HashMap<String, PlayerPrefixData> getOwnedPrefixes() {
+    public Map<String, PlayerPrefixData> getOwnedPrefixes() {
         return ownedPrefixes;
     }
 

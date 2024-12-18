@@ -33,13 +33,24 @@ public class FormMain {
         window.addButton(new ElementButton(defaultPrefix));
         Set<Map.Entry<String, PlayerPrefixData>> dataList = PrefixAPI.getPlayerPrefixData(player.getName()).getOwnedPrefixes().entrySet();
         if (!dataList.isEmpty()) {
+            long currentMillis = System.currentTimeMillis();
             for (Map.Entry<String, PlayerPrefixData> data : dataList) {
                 String identifier = data.getValue().getIdentifier();
                 PrefixData prefixData = PrefixAPI.getPrefixData(identifier);
                 if (prefixData == null) {
                     window.addButton(new ElementButton(notFound));
                 } else {
-                    window.addButton(new ElementButton(prefixData.getName() + TextFormat.RESET + "\n剩余时间：" + PrefixUtils.secToTime((int) (data.getValue().getExpireMillis() - System.currentTimeMillis()) / 1000)));
+                    long expireMillis = data.getValue().getExpireMillis();
+                    String leftTime;
+                    if (data.getValue().getExpireMillis() != -1L) {
+                        leftTime = PrefixUtils.secToTime((expireMillis - currentMillis) / 1000);
+                    } else {
+                        leftTime = "永久";
+                    }
+                    String prefix = prefixData.getRarity().isEmpty()?
+                            PrefixMain.prefixRarityMap.getOrDefault(PrefixMain.defaultRarity, "")
+                            : PrefixMain.prefixRarityMap.getOrDefault(prefixData.getRarity(), PrefixMain.prefixRarityMap.getOrDefault(PrefixMain.defaultRarity, ""));
+                    window.addButton(new ElementButton((prefix.isEmpty()? "" : TextFormat.RESET + "[" + prefix + TextFormat.RESET + "] ") + prefixData.getName() + TextFormat.RESET + "\n剩余时间：" + leftTime));
                 }
             }
         }

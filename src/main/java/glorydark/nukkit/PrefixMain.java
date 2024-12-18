@@ -4,7 +4,6 @@ import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.event.Listener;
 import cn.nukkit.plugin.PluginBase;
-import cn.nukkit.utils.Config;
 import cn.nukkit.utils.TextFormat;
 import gameapi.listener.base.GameListenerRegistry;
 import glorydark.nukkit.data.*;
@@ -14,20 +13,21 @@ import glorydark.nukkit.provider.PrefixProvider;
 import glorydark.nukkit.provider.PrefixYamlProvider;
 import tip.utils.Api;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class PrefixMain extends PluginBase implements Listener {
 
     public static String defaultPrefix = "萌新驾到";
+    public static String defaultRarity;
 
     public static String path;
-    public static HashMap<String, PlayerData> playerPrefixDataHashMap = new HashMap<>();
-    public static HashMap<String, PrefixData> prefixDataHashMap = new HashMap<>();
-    public static HashMap<String, PrefixData> purchasablePrefixDataHashMap = new HashMap<>();
+    public static Map<String, PlayerData> playerPrefixDataHashMap = new LinkedHashMap<>();
+    public static Map<String, PrefixData> prefixDataHashMap = new LinkedHashMap<>();
+    public static Map<String, PrefixData> purchasablePrefixDataHashMap = new LinkedHashMap<>();
+    public static Map<String, String> prefixRarityMap = new LinkedHashMap<>();
     protected static PrefixMain plugin;
     protected PrefixProvider provider;
     public static boolean gameapiEnabled;

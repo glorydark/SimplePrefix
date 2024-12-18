@@ -10,13 +10,15 @@ import java.util.List;
 public class PrefixData {
     private String identifier;
     private String name;
+    private String rarity;
     private double cost; // -1就是不售卖
     private long duration;
 
 
-    public PrefixData(String identifier, String name, double cost, long duration) {
+    public PrefixData(String identifier, String name, String rarity, double cost, long duration) {
         this.identifier = identifier;
         this.name = name;
+        this.rarity = rarity;
         this.cost = cost;
         this.duration = duration;
     }
@@ -51,6 +53,14 @@ public class PrefixData {
 
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
+    }
+
+    public String getRarity() {
+        return rarity;
+    }
+
+    public void setRarity(String rarity) {
+        this.rarity = rarity;
     }
 
     public void buy(Player player) {
