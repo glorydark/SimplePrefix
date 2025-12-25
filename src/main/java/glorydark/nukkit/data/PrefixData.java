@@ -5,8 +5,6 @@ import glorydark.nukkit.PrefixAPI;
 import glorydark.nukkit.PrefixUtils;
 import me.onebone.economyapi.EconomyAPI;
 
-import java.util.List;
-
 public class PrefixData {
     private String identifier;
     private String name;

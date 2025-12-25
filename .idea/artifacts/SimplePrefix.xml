@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="SimplePrefix">
-    <output-path>$PROJECT_DIR$/../../dependencies/pure-test-mot/plugins</output-path>
-    <root id="archive" name="SimplePrefix.jar">
-      <element id="module-output" name="SimplePrefix" />
-    </root>
-  </artifact>
-</component>

@@ -13,6 +13,9 @@ public class PrefixUtils {
     }
 
     public static String secToTime(long seconds) {
+        if (seconds == -1) {
+            return "永久";
+        }
         long day = seconds / 86400;
         long hour = seconds / 3600;
         long minute = (seconds - hour * 3600) / 60;

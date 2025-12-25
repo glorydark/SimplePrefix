@@ -6,7 +6,7 @@ author: glorydark
 description: SimplePrefix
 load: POSTWORLD
 depend:
-  - EconomyAPI
   - Tips
 softdepend:
   - GameAPI
+  - EconomyAPI

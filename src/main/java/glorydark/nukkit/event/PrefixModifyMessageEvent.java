@@ -5,7 +5,6 @@ import cn.nukkit.event.Cancellable;
 import cn.nukkit.event.HandlerList;
 import cn.nukkit.event.player.PlayerEvent;
 import glorydark.nukkit.PrefixAPI;
-import glorydark.nukkit.data.MessageDecorationType;
 import glorydark.nukkit.data.PrefixData;
 
 public class PrefixModifyMessageEvent extends PlayerEvent implements Cancellable {

@@ -6,11 +6,9 @@ import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.utils.Config;
 import cn.nukkit.utils.TextFormat;
-import gameapi.GameAPI;
 import glorydark.nukkit.data.PlayerPrefixData;
 import glorydark.nukkit.data.PrefixData;
 import glorydark.nukkit.forms.FormMain;
-import org.checkerframework.checker.units.qual.Prefix;
 
 import java.io.File;
 import java.util.LinkedHashMap;
@@ -50,7 +48,7 @@ public class PrefixCommand extends Command {
             File file = new File(PrefixMain.path + "/players/");
             switch (strings[0]) {
                 case "reload":
-                    PrefixMain.getPlugin().getProvider().loadPrefix();
+                    PrefixMain.getPlugin().loadPrefix();
                     PrefixMain.getPlugin().getProvider().reloadPlayerData();
                     commandSender.sendMessage(TextFormat.GREEN + "重载称号及玩家数据成功！");
                     break;
@@ -73,10 +71,10 @@ public class PrefixCommand extends Command {
                     }
                     if (PrefixAPI.addOwnedPrefix(player, identifier, duration)) {
                         PrefixData prefixData = PrefixMain.getPlugin().getProvider().getPrefixData(identifier);
-                        commandSender.sendMessage(TextFormat.GREEN + "给予玩家 " + player + " 称号 " + prefixData.getName() + TextFormat.RESET + " * " + PrefixUtils.secToTime((int) (duration / 1000L)) + " 成功");
+                        commandSender.sendMessage(TextFormat.GREEN + "给予玩家 " + player + " 称号 " + prefixData.getName() + TextFormat.RESET + " * " + (duration == -1? "永久": PrefixUtils.secToTime((duration / 1000L))) + " 成功");
                         Player recipient = Server.getInstance().getPlayer(player);
                         if (recipient != null) {
-                            recipient.sendMessage(TextFormat.GOLD + "恭喜你获得称号 " + prefixData.getName() + TextFormat.RESET + " * " + PrefixUtils.secToTime((int) (duration / 1000L)));
+                            recipient.sendMessage(TextFormat.GOLD + "恭喜你获得称号 " + prefixData.getName() + TextFormat.RESET + " * " + (duration == -1? "永久": PrefixUtils.secToTime((duration / 1000L))));
                         }
                     } else {
                         commandSender.sendMessage("给予失败！");

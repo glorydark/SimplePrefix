@@ -2,13 +2,13 @@ package glorydark.nukkit.provider;
 
 import cn.nukkit.Player;
 import cn.nukkit.Server;
-import cn.nukkit.utils.Config;
 import cn.nukkit.utils.ConfigSection;
 import glorydark.nukkit.PrefixMain;
-import glorydark.nukkit.data.*;
+import glorydark.nukkit.data.PlayerData;
+import glorydark.nukkit.data.PlayerPrefixData;
+import glorydark.nukkit.data.PlayerYamlData;
+import glorydark.nukkit.data.PrefixData;
 
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 public class PrefixYamlProvider implements PrefixProvider {
@@ -102,33 +102,6 @@ public class PrefixYamlProvider implements PrefixProvider {
         PrefixMain.playerPrefixDataHashMap.clear();
         for (Player player : Server.getInstance().getOnlinePlayers().values()) {
             generatePlayerTempCache(player);
-        }
-    }
-
-    @Override
-    public void loadPrefix() {
-        PrefixMain.prefixDataHashMap.clear();
-        PrefixMain.purchasablePrefixDataHashMap.clear();
-        PrefixMain.prefixRarityMap.clear();
-        Config config = new Config(PrefixMain.path + "/config.yml", Config.YAML);
-        PrefixMain.defaultRarity = "普通";
-        if (config.exists("prefixes")) {
-            List<Map<String, Object>> prefixDataList = (List<Map<String, Object>>) config.get("prefixes");
-            for (Map<String, Object> prefixDatum : prefixDataList) {
-                String identifier = (String) prefixDatum.get("identifier");
-                PrefixData data = new PrefixData(identifier, (String) prefixDatum.get("name"), (String) prefixDatum.getOrDefault("rarity", ""), (Double) prefixDatum.getOrDefault("price", -1), prefixDatum.getOrDefault("duration", 0).toString().equals("permanent") ? -1 : Long.parseLong(prefixDatum.get("duration").toString()));
-                PrefixMain.prefixDataHashMap.put(identifier, data);
-                if (data.getCost() >= 0) {
-                    PrefixMain.purchasablePrefixDataHashMap.put(identifier, data);
-                }
-            }
-        }
-        PrefixMain.defaultRarity = config.getString("default_rarity", "");
-        if (config.exists("rarity")) {
-            Map<String, Object> rarityMap = config.get("rarity", new LinkedHashMap<>());
-            for (Map.Entry<String, Object> entry : rarityMap.entrySet()) {
-                PrefixMain.prefixRarityMap.put(entry.getKey(), String.valueOf(entry.getValue()));
-            }
         }
     }
 

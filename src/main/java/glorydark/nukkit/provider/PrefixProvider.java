@@ -28,7 +28,5 @@ public interface PrefixProvider {
 
     void reloadPlayerData();
 
-    void loadPrefix();
-
     void generatePlayerTempCache(Player player);
 }
